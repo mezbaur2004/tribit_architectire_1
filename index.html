@@ -5,222 +5,503 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tribid Architecture &amp; Engineering</title>
 <meta name="description" content="Exterior design, interior design and apartment / commercial space sale by Tribid Architecture &amp; Engineering, Dhaka.">
+<meta name="theme-color" content="#0b2a21">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b2a21'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23d9a441' font-family='Georgia,serif'%3ET%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f6f3ee;
-    --ink: #1c1f1d;
-    --muted: #5d645f;
+    --bg: #f5f2ec;
+    --bg-2: #ebe6db;
+    --ink: #10201a;
+    --muted: #5f6b64;
     --green: #0f5a45;
-    --green-dark: #0a3f31;
-    --card: #ffffff;
-    --line: #e2ddd3;
+    --green-deep: #0b2a21;
+    --accent: #d9a441;
     --brick: #c2452d;
+    --line: rgba(16, 32, 26, .12);
+    --ease: cubic-bezier(.22, 1, .36, 1);
+    --serif: "Fraunces", Georgia, "Times New Roman", serif;
+    --sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   }
   * { box-sizing: border-box; margin: 0; }
-  body {
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    background: var(--bg);
-    color: var(--ink);
-    line-height: 1.5;
-  }
-  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--sans); background: var(--bg); color: var(--ink); line-height: 1.55; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; }
+  .wrap { width: min(1160px, 100% - 32px); margin-inline: auto; }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 600; line-height: 1.1; letter-spacing: -.01em; }
 
-  header { padding: 20px 0; border-bottom: 1px solid var(--line); background: #fff; }
-  header .wrap { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
-  .brand { font-weight: 700; font-size: 1.1rem; color: var(--green-dark); }
-  .brand small { display: block; font-weight: 400; font-size: .75rem; color: var(--muted); }
-  header a { color: var(--green); text-decoration: none; font-weight: 600; }
-
-  .hero { text-align: center; padding: 48px 0 28px; }
-  .hero h1 { font-size: clamp(1.7rem, 5vw, 2.6rem); line-height: 1.15; }
-  .hero p { color: var(--muted); max-width: 560px; margin: 12px auto 0; }
-
-  .services { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; padding: 20px 0 56px; }
-  .card {
-    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
-    overflow: hidden; display: flex; flex-direction: column;
+  /* ---------- header ---------- */
+  .nav {
+    position: fixed; inset: 0 0 auto 0; z-index: 30; padding: 14px 0; color: #fff;
+    transition: background .4s var(--ease), box-shadow .4s var(--ease), padding .4s var(--ease);
   }
-  .card .media { aspect-ratio: 4 / 3; background: #d9d4c8; position: relative; overflow: hidden; }
-  .card .media img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .card .media.placeholder {
-    display: grid; place-items: center; color: var(--muted); font-size: .9rem;
-    background: repeating-linear-gradient(45deg, #e6e1d5, #e6e1d5 12px, #ddd7c9 12px, #ddd7c9 24px);
+  .nav.scrolled { background: rgba(11, 42, 33, .82); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); padding: 10px 0; box-shadow: 0 1px 0 rgba(255,255,255,.08); }
+  .nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .brand { font-family: var(--serif); font-weight: 600; font-size: 1.15rem; text-decoration: none; letter-spacing: .01em; }
+  .brand span { color: var(--accent); }
+  .brand small { font-family: var(--sans); font-weight: 400; font-size: .7rem; opacity: .75; letter-spacing: .08em; margin-left: 4px; }
+  @media (max-width: 560px) { .brand small { display: none; } }
+  .nav-call {
+    text-decoration: none; font-weight: 600; font-size: .9rem; padding: 9px 16px; border-radius: 999px;
+    border: 1px solid rgba(255,255,255,.35); transition: background .3s, color .3s, transform .3s var(--ease);
   }
-  .thumbs { display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); gap: 4px; padding: 4px 4px 0; }
-  .thumbs button { border: 0; padding: 0; background: none; cursor: pointer; border-radius: 6px; overflow: hidden; opacity: .6; }
-  .thumbs button[aria-current="true"] { opacity: 1; outline: 2px solid var(--green); }
-  .thumbs img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
-  .card .body { padding: 18px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
-  .card h2 { font-size: 1.25rem; }
-  .card p { color: var(--muted); font-size: .95rem; }
-  .card ul { color: var(--muted); font-size: .9rem; padding-left: 18px; }
+  .nav-call:hover { background: #fff; color: var(--green-deep); transform: translateY(-1px); }
+
+  /* ---------- hero ---------- */
+  .hero { position: relative; min-height: 100svh; display: grid; align-items: end; color: #fff; overflow: hidden; background: var(--green-deep); }
+  .hero-bg { position: absolute; inset: 0; }
+  .hero-bg img { width: 100%; height: 100%; object-fit: cover; animation: kenburns 24s ease-in-out infinite alternate; }
+  .hero-bg::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(11,42,33,.55) 0%, rgba(11,42,33,.25) 35%, rgba(11,42,33,.92) 100%);
+  }
+  @keyframes kenburns { from { transform: scale(1.02); } to { transform: scale(1.14) translate(-1.5%, -1%); } }
+  .hero-inner { position: relative; padding: 140px 0 56px; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 10px; font-size: .78rem; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+  .eyebrow::before { content: ""; width: 34px; height: 1px; background: currentColor; }
+  .hero h1 { font-size: clamp(2.4rem, 7.5vw, 5.4rem); margin: 16px 0 18px; max-width: 14ch; }
+  .hero h1 em { font-style: italic; font-weight: 400; color: var(--accent); }
+  .hero p.lead { max-width: 520px; color: rgba(255,255,255,.82); font-size: 1.05rem; }
+
+  .picks { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; margin-top: 40px; }
+  .pick {
+    position: relative; text-align: left; font: inherit; color: #fff; cursor: pointer; border: 1px solid rgba(255,255,255,.22);
+    background: rgba(255,255,255,.08); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    padding: 20px 20px 18px; border-radius: 18px; overflow: hidden;
+    transition: transform .5s var(--ease), background .4s, border-color .4s;
+  }
+  .pick::after {
+    content: ""; position: absolute; inset: 0; background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,.18) 50%, transparent 70%);
+    transform: translateX(-120%); transition: transform .9s var(--ease);
+  }
+  .pick:hover { transform: translateY(-6px); background: rgba(255,255,255,.16); border-color: rgba(255,255,255,.5); }
+  .pick:hover::after { transform: translateX(120%); }
+  .pick .num { font-family: var(--serif); color: var(--accent); font-size: .95rem; }
+  .pick h3 { font-size: 1.25rem; margin: 6px 0 10px; }
+  .pick .go { display: flex; justify-content: space-between; align-items: center; font-size: .85rem; color: rgba(255,255,255,.75); }
+  .pick .go svg { transition: transform .4s var(--ease); }
+  .pick:hover .go svg { transform: translateX(6px); }
+
+  .scroll-hint { position: absolute; left: 50%; bottom: 10px; width: 1px; height: 30px; background: rgba(255,255,255,.25); overflow: hidden; }
+  .scroll-hint::after { content: ""; position: absolute; inset: 0; background: #fff; animation: drip 2.2s var(--ease) infinite; }
+  @keyframes drip { 0% { transform: translateY(-100%); } 60%, 100% { transform: translateY(100%); } }
+
+  /* ---------- marquee ---------- */
+  .marquee { background: var(--green-deep); color: rgba(255,255,255,.85); overflow: hidden; padding: 16px 0; white-space: nowrap; }
+  .marquee-track { display: inline-flex; gap: 48px; animation: slide 40s linear infinite; }
+  .marquee span { font-family: var(--serif); font-size: 1.1rem; }
+  .marquee span::after { content: "✦"; color: var(--accent); margin-left: 48px; }
+  @keyframes slide { to { transform: translateX(-50%); } }
+
+  /* ---------- showcase ---------- */
+  .showcase { padding: clamp(64px, 10vw, 120px) 0; }
+  .showcase.alt { background: var(--bg-2); }
+  .show-grid { display: grid; gap: clamp(28px, 5vw, 64px); grid-template-columns: 1fr; align-items: center; }
+  @media (min-width: 900px) {
+    .show-grid { grid-template-columns: 1.15fr .85fr; }
+    .showcase.flip .show-grid { grid-template-columns: .85fr 1.15fr; }
+    .showcase.flip .gallery { order: 2; }
+  }
+  .show-grid > * { min-width: 0; }
+  .kicker { color: var(--green); font-weight: 600; font-size: .8rem; letter-spacing: .16em; text-transform: uppercase; }
+  .copy h2 { font-size: clamp(2rem, 4.4vw, 3.3rem); margin: 10px 0 14px; }
+  .copy p { color: var(--muted); max-width: 46ch; }
+  .copy ul { list-style: none; padding: 0; margin: 22px 0 28px; display: grid; gap: 10px; }
+  .copy li { display: flex; gap: 12px; align-items: center; font-weight: 500; }
+  .copy li::before { content: ""; width: 20px; height: 20px; flex: none; border-radius: 50%; background: var(--green) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5.5 10.5l3 3 6-6.5'/%3E%3C/svg%3E") center/100% no-repeat; }
+  .copy p + .btn { margin-top: 24px; }
+
   .btn {
-    margin-top: auto; border: 0; cursor: pointer; font: inherit; font-weight: 600;
-    background: var(--green); color: #fff; padding: 12px 16px; border-radius: 10px;
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px; font: inherit; font-weight: 600; cursor: pointer; border: 0;
+    padding: 14px 24px; border-radius: 999px; background: var(--green); color: #fff;
+    transition: transform .4s var(--ease), box-shadow .4s var(--ease), background .3s, color .3s;
+    box-shadow: 0 10px 24px -10px rgba(15, 90, 69, .7);
   }
-  .btn:hover { background: var(--green-dark); }
-  .btn:disabled { opacity: .6; cursor: default; }
+  .btn:hover { transform: translateY(-3px); box-shadow: 0 16px 30px -12px rgba(15, 90, 69, .8); background: var(--green-deep); }
+  .btn:active { transform: translateY(0) scale(.98); }
+  .btn:disabled { opacity: .6; cursor: default; transform: none; }
+  .btn svg { transition: transform .4s var(--ease); }
+  .btn:hover svg { transform: translateX(4px); }
 
-  footer { border-top: 1px solid var(--line); background: #fff; padding: 24px 0; font-size: .9rem; color: var(--muted); }
-  footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
+  /* ---------- gallery ---------- */
+  .gallery { position: relative; }
+  .stage {
+    position: relative; aspect-ratio: 4 / 3; border-radius: 22px; overflow: hidden; background: #cfc9bb;
+    box-shadow: 0 30px 60px -30px rgba(11, 42, 33, .55); isolation: isolate;
+  }
+  .stage > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.08); transition: opacity 1s var(--ease), transform 7s ease-out; }
+  .stage > img.on { opacity: 1; transform: scale(1); }
+  .stage::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, transparent 60%, rgba(11,42,33,.35)); z-index: 1; }
+  .counter { position: absolute; left: 18px; bottom: 14px; z-index: 2; color: #fff; font-family: var(--serif); font-size: .95rem; }
+  .arrows { position: absolute; right: 14px; bottom: 12px; z-index: 2; display: flex; gap: 8px; }
+  .arrows button {
+    width: 42px; height: 42px; border-radius: 50%; border: 1px solid rgba(255,255,255,.5); cursor: pointer; font-size: 1.3rem; line-height: 1;
+    background: rgba(255,255,255,.16); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); color: #fff;
+    display: grid; place-items: center; transition: background .3s, transform .3s var(--ease), color .3s;
+  }
+  .arrows button:hover { background: #fff; color: var(--green-deep); transform: scale(1.08); }
+  .bars { position: absolute; top: 14px; left: 14px; right: 14px; display: flex; gap: 5px; z-index: 2; }
+  .bars i { flex: 1; height: 3px; border-radius: 3px; background: rgba(255,255,255,.35); overflow: hidden; }
+  .bars i::after { content: ""; display: block; height: 100%; width: 0; background: #fff; }
+  .bars i.done::after { width: 100%; }
+  .bars i.run::after { width: 100%; transition: width var(--dur, 5s) linear; }
+  .thumbs { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 10px; margin-top: 12px; }
+  .thumbs button { border: 0; padding: 0; cursor: pointer; border-radius: 12px; overflow: hidden; background: none; opacity: .55; transition: opacity .4s, transform .4s var(--ease), outline-color .3s; outline: 2px solid transparent; outline-offset: 2px; }
+  .thumbs button:hover { opacity: 1; transform: translateY(-3px); }
+  .thumbs button[aria-current="true"] { opacity: 1; outline-color: var(--green); }
+  .thumbs img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
 
-  /* modal */
-  dialog {
-    border: 0; border-radius: 16px; padding: 0; width: min(420px, calc(100vw - 32px));
-    box-shadow: 0 20px 60px rgba(0,0,0,.3);
+  /* ---------- cta band ---------- */
+  .band { background: var(--green-deep); color: #fff; text-align: center; padding: clamp(64px, 9vw, 110px) 0; position: relative; overflow: hidden; }
+  .band::before, .band::after { content: ""; position: absolute; width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(closest-side, rgba(217,164,65,.25), transparent); animation: float 12s ease-in-out infinite alternate; }
+  .band::before { left: -120px; top: -160px; }
+  .band::after { right: -140px; bottom: -180px; animation-delay: -6s; }
+  @keyframes float { to { transform: translate(60px, 40px) scale(1.15); } }
+  .band .wrap { position: relative; z-index: 1; }
+  .band h2 { font-size: clamp(2rem, 5vw, 3.4rem); max-width: 18ch; margin: 0 auto 12px; }
+  .band p { color: rgba(255,255,255,.75); margin-bottom: 28px; }
+  .band .btn { background: var(--accent); color: var(--green-deep); box-shadow: 0 12px 30px -12px rgba(217,164,65,.8); }
+  .band .btn:hover { background: #fff; }
+
+  footer { background: #071a14; color: rgba(255,255,255,.7); padding: 36px 0; font-size: .9rem; }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 12px 32px; justify-content: space-between; }
+  footer a { text-decoration: none; }
+  footer a:hover { color: #fff; }
+
+  /* ---------- reveal ---------- */
+  .reveal { opacity: 0; transform: translateY(34px); transition: opacity .9s var(--ease), transform .9s var(--ease); transition-delay: var(--d, 0s); }
+  .reveal.in { opacity: 1; transform: none; }
+  .hero .reveal { opacity: 1; transform: none; transition: none; animation: rise 1.1s var(--ease) both; animation-delay: var(--d, 0s); }
+  @keyframes rise { from { opacity: 0; transform: translateY(40px); } }
+
+  /* ---------- modal ---------- */
+  dialog { margin: auto; border: 0; padding: 0; background: transparent; width: min(440px, calc(100vw - 32px)); overflow: visible; color: var(--ink); }
+  dialog::backdrop { background: rgba(7, 26, 20, .6); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+  dialog[open]::backdrop { animation: fade .35s both; }
+  dialog.closing::backdrop { animation: fade .25s reverse both; }
+  @keyframes fade { from { opacity: 0; } }
+  dialog[open] .modal { animation: pop .55s var(--ease) both; }
+  dialog.closing .modal { animation: popout .25s ease-in both; }
+  @keyframes pop { from { opacity: 0; transform: translateY(30px) scale(.94); } }
+  @keyframes popout { to { opacity: 0; transform: translateY(16px) scale(.97); } }
+  .modal { background: #fff; border-radius: 24px; padding: 30px 26px 26px; box-shadow: 0 40px 80px -30px rgba(0,0,0,.6); position: relative; overflow: hidden; }
+  .modal::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 5px; background: linear-gradient(90deg, var(--green), var(--accent)); }
+  .modal form { display: grid; gap: 16px; }
+  .x { position: absolute; top: 14px; right: 14px; width: 34px; height: 34px; border-radius: 50%; border: 0; background: var(--bg); cursor: pointer; font-size: 1rem; transition: transform .4s var(--ease), background .3s; }
+  .x:hover { transform: rotate(90deg); background: var(--bg-2); }
+  .modal h3 { font-size: 1.6rem; padding-right: 30px; }
+  .chip { display: inline-block; background: rgba(15,90,69,.1); color: var(--green); font-weight: 600; font-size: .85rem; padding: 5px 12px; border-radius: 999px; justify-self: start; }
+  .field { position: relative; }
+  .field input {
+    width: 100%; font: inherit; font-size: 1.1rem; padding: 22px 16px 8px; border: 1.5px solid var(--line); border-radius: 14px; background: #fff;
+    transition: border-color .3s, box-shadow .3s;
   }
-  dialog::backdrop { background: rgba(10, 30, 24, .55); }
-  .modal { padding: 24px; display: grid; gap: 14px; }
-  .modal h3 { font-size: 1.2rem; }
-  .modal .sub { color: var(--muted); font-size: .92rem; }
-  .modal label { font-weight: 600; font-size: .9rem; }
-  .modal input[type="tel"] {
-    width: 100%; font: inherit; padding: 12px; border: 1px solid var(--line);
-    border-radius: 10px; margin-top: 6px;
-  }
-  .modal input[type="tel"]:focus { outline: 2px solid var(--green); border-color: transparent; }
-  .msg { font-size: .9rem; min-height: 1.3em; }
+  .field label { position: absolute; left: 16px; top: 16px; color: var(--muted); pointer-events: none; transition: transform .3s var(--ease); transform-origin: left top; }
+  .field input:focus, .field input:not(:placeholder-shown) { border-color: var(--green); }
+  .field input:focus { box-shadow: 0 0 0 4px rgba(15,90,69,.14); outline: 0; }
+  .field input:focus + label, .field input:not(:placeholder-shown) + label { transform: translateY(-9px) scale(.75); }
+  .field.bad input { border-color: var(--brick); animation: shake .4s; }
+  @keyframes shake { 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
+  .msg { font-size: .9rem; min-height: 1.3em; color: var(--muted); }
   .msg.err { color: var(--brick); }
-  .msg.ok { color: var(--green); }
-  .actions { display: flex; gap: 10px; }
-  .actions .btn { margin-top: 0; flex: 1; }
-  .btn.ghost { background: #eee9de; color: var(--ink); }
-  .btn.ghost:hover { background: #e2ddd0; }
+  .modal .btn { width: 100%; }
+  .spin { width: 16px; height: 16px; border-radius: 50%; border: 2px solid rgba(255,255,255,.4); border-top-color: #fff; animation: rot .7s linear infinite; display: none; }
+  .sending .spin { display: inline-block; }
+  @keyframes rot { to { transform: rotate(360deg); } }
   .hp { position: absolute; left: -9999px; }
+  .done { display: none; text-align: center; gap: 10px; padding: 12px 0 6px; justify-items: center; }
+  .modal.ok form { display: none; }
+  .modal.ok .done { display: grid; }
+  .tick { width: 78px; height: 78px; }
+  .tick circle { stroke: var(--green); stroke-width: 3; fill: none; stroke-dasharray: 176; stroke-dashoffset: 176; animation: draw .7s var(--ease) forwards; }
+  .tick path { stroke: var(--green); stroke-width: 4; fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 40; stroke-dashoffset: 40; animation: draw .45s .5s var(--ease) forwards; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  .done p { color: var(--muted); }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; animation-delay: 0s !important; transition-duration: .01ms !important; }
+    .reveal { opacity: 1; transform: none; }
+  }
 </style>
 </head>
 <body>
 
-<header>
+<header class="nav" id="nav">
   <div class="wrap">
-    <div class="brand">Tribid Architecture &amp; Engineering<small>We build dreams you can live in.</small></div>
-    <a href="tel:+8801825042138">Call +88 01825-042138</a>
+    <a class="brand" href="#top">Tribid<span>.</span><small>ARCHITECTURE &amp; ENGINEERING</small></a>
+    <a class="nav-call" href="tel:+8801825042138">Call +88 01825-042138</a>
   </div>
 </header>
 
-<main class="wrap">
-  <section class="hero">
-    <h1>Choose a service and we'll call you back</h1>
-    <p>Pick what you need, leave your phone number, and our team will get in touch.</p>
-  </section>
+<section class="hero" id="top">
+  <div class="hero-bg"><img src="images/exterior-2.jpg" alt=""></div>
+  <div class="wrap hero-inner">
+    <span class="eyebrow reveal" style="--d:.1s">Dhaka · 12 years of craft</span>
+    <h1 class="reveal" style="--d:.25s">We build dreams you can <em>live in.</em></h1>
+    <p class="lead reveal" style="--d:.4s">Tell us what you need. Leave your number and our team will call you back.</p>
 
-  <section class="services" aria-label="Services">
+    <div class="picks" role="group" aria-label="Choose a service">
+      <button class="pick reveal" style="--d:.55s" data-service="Exterior Design">
+        <span class="num">01</span><h3>Exterior Design</h3>
+        <span class="go">Get a call back <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </button>
+      <button class="pick reveal" style="--d:.65s" data-service="Interior Design">
+        <span class="num">02</span><h3>Interior Design</h3>
+        <span class="go">Get a call back <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </button>
+      <button class="pick reveal" style="--d:.75s" data-service="Apartment / Commercial Space Sale">
+        <span class="num">03</span><h3>Apartment / Commercial Space Sale</h3>
+        <span class="go">Get a call back <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </button>
+    </div>
+  </div>
+  <div class="scroll-hint" aria-hidden="true"></div>
+</section>
 
-    <!-- Exterior -->
-    <article class="card gallery" data-label="Exterior design">
-      <div class="media"><img data-main src="images/exterior-1.jpg" alt="Exterior design project 1" loading="lazy"></div>
-      <div class="thumbs">
-        <button type="button" aria-label="Show image 1" aria-current="true"><img src="images/exterior-1.jpg" alt="" loading="lazy"></button>
-        <button type="button" aria-label="Show image 2"><img src="images/exterior-2.jpg" alt="" loading="lazy"></button>
-        <button type="button" aria-label="Show image 3"><img src="images/exterior-3.jpg" alt="" loading="lazy"></button>
-        <button type="button" aria-label="Show image 4"><img src="images/exterior-4.jpg" alt="" loading="lazy"></button>
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Residential facades</span><span>Commercial exteriors</span><span>Space planning</span><span>Lighting design</span><span>3D visualizations</span><span>Landscaping integration</span><span>Sustainable solutions</span><span>Featured apartments</span>
+    <span>Residential facades</span><span>Commercial exteriors</span><span>Space planning</span><span>Lighting design</span><span>3D visualizations</span><span>Landscaping integration</span><span>Sustainable solutions</span><span>Featured apartments</span>
+  </div>
+</div>
+
+<main>
+  <!-- Exterior -->
+  <section class="showcase" id="exterior">
+    <div class="wrap show-grid">
+      <div class="gallery reveal" data-gallery>
+        <div class="stage">
+          <div class="bars"></div>
+          <img src="images/exterior-1.jpg" alt="Exterior design project 1" loading="lazy">
+          <img src="images/exterior-2.jpg" alt="Exterior design project 2" loading="lazy">
+          <img src="images/exterior-3.jpg" alt="Exterior design project 3" loading="lazy">
+          <img src="images/exterior-4.jpg" alt="Exterior design project 4" loading="lazy">
+          <span class="counter"></span>
+          <div class="arrows"><button type="button" data-prev aria-label="Previous image">‹</button><button type="button" data-next aria-label="Next image">›</button></div>
+        </div>
+        <div class="thumbs"></div>
       </div>
-      <div class="body">
-        <h2>Exterior Design</h2>
-        <p>Facades that reflect personality and purpose, in harmony with their surroundings.</p>
+      <div class="copy reveal" style="--d:.15s">
+        <span class="kicker">01 · Exterior</span>
+        <h2>Facades with personality and purpose</h2>
+        <p>The exterior is not just a building's face, it reflects who lives there. We design exteriors that are captivating, functional and durable, in harmony with their surroundings.</p>
         <ul>
           <li>Residential facades</li>
           <li>Commercial building exteriors</li>
           <li>Landscaping integration</li>
           <li>Sustainable solutions</li>
         </ul>
-        <button class="btn" data-service="Exterior Design">Get a call back</button>
+        <button class="btn" data-service="Exterior Design">Get a call back <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
       </div>
-    </article>
+    </div>
+  </section>
 
-    <!-- Interior -->
-    <article class="card gallery" data-label="Interior design">
-      <div class="media"><img data-main src="images/interior-1.jpg" alt="Interior design project 1" loading="lazy"></div>
-      <div class="thumbs">
-        <button type="button" aria-label="Show image 1" aria-current="true"><img src="images/interior-1.jpg" alt="" loading="lazy"></button>
-        <button type="button" aria-label="Show image 2"><img src="images/interior-2.jpg" alt="" loading="lazy"></button>
-        <button type="button" aria-label="Show image 3"><img src="images/interior-3.jpg" alt="" loading="lazy"></button>
-        <button type="button" aria-label="Show image 4"><img src="images/interior-4.jpg" alt="" loading="lazy"></button>
-        <button type="button" aria-label="Show image 5"><img src="images/interior-5.jpg" alt="" loading="lazy"></button>
+  <!-- Interior -->
+  <section class="showcase alt flip" id="interior">
+    <div class="wrap show-grid">
+      <div class="gallery reveal" data-gallery>
+        <div class="stage">
+          <div class="bars"></div>
+          <img src="images/interior-1.jpg" alt="Interior design project 1" loading="lazy">
+          <img src="images/interior-2.jpg" alt="Interior design project 2" loading="lazy">
+          <img src="images/interior-3.jpg" alt="Interior design project 3" loading="lazy">
+          <img src="images/interior-4.jpg" alt="Interior design project 4" loading="lazy">
+          <img src="images/interior-5.jpg" alt="Interior design project 5" loading="lazy">
+          <span class="counter"></span>
+          <div class="arrows"><button type="button" data-prev aria-label="Previous image">‹</button><button type="button" data-next aria-label="Next image">›</button></div>
+        </div>
+        <div class="thumbs"></div>
       </div>
-      <div class="body">
-        <h2>Interior Design</h2>
-        <p>Functional, stylish and personalized spaces for every lifestyle.</p>
+      <div class="copy reveal" style="--d:.15s">
+        <span class="kicker">02 · Interior</span>
+        <h2>Spaces made for the way you live</h2>
+        <p>Functional, stylish and personal. From the first sketch to the final installation, we handle every detail so your vision is executed with precision.</p>
         <ul>
           <li>Customized design solutions</li>
           <li>Space planning &amp; material selection</li>
           <li>Lighting design</li>
           <li>3D visualizations</li>
         </ul>
-        <button class="btn" data-service="Interior Design">Get a call back</button>
+        <button class="btn" data-service="Interior Design">Get a call back <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
       </div>
-    </article>
+    </div>
+  </section>
 
-    <!-- Sale -->
-    <article class="card gallery" data-label="Apartment / commercial space">
-      <div class="media"><img data-main src="images/sale-1.jpg" alt="Apartment / commercial space project 1" loading="lazy"></div>
-      <div class="thumbs">
-        <button type="button" aria-label="Show image 1" aria-current="true"><img src="images/sale-1.jpg" alt="" loading="lazy"></button>
-        <button type="button" aria-label="Show image 2"><img src="images/sale-2.jpg" alt="" loading="lazy"></button>
-        <button type="button" aria-label="Show image 3"><img src="images/sale-3.jpg" alt="" loading="lazy"></button>
+  <!-- Sale -->
+  <section class="showcase" id="sale">
+    <div class="wrap show-grid">
+      <div class="gallery reveal" data-gallery>
+        <div class="stage">
+          <div class="bars"></div>
+          <img src="images/sale-1.jpg" alt="Apartment / commercial space 1" loading="lazy">
+          <img src="images/sale-2.jpg" alt="Apartment / commercial space 2" loading="lazy">
+          <img src="images/sale-3.jpg" alt="Apartment / commercial space 3" loading="lazy">
+          <span class="counter"></span>
+          <div class="arrows"><button type="button" data-prev aria-label="Previous image">‹</button><button type="button" data-next aria-label="Next image">›</button></div>
+        </div>
+        <div class="thumbs"></div>
       </div>
-      <div class="body">
-        <h2>Apartment / Commercial Space Sale</h2>
-        <p>Featured residential and commercial spaces, such as Century Riaz Valley, Kalabagan, Dhanmondi.</p>
-        <button class="btn" data-service="Apartment / Commercial Space Sale">Get a call back</button>
+      <div class="copy reveal" style="--d:.15s">
+        <span class="kicker">03 · Apartments &amp; Spaces</span>
+        <h2>Featured residential &amp; commercial spaces</h2>
+        <p>Explore our featured developments, such as Century Riaz Valley at Kalabagan, Dhanmondi. Leave your number and we'll share what's available.</p>
+        <button class="btn" data-service="Apartment / Commercial Space Sale">Get a call back <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
       </div>
-    </article>
+    </div>
+  </section>
 
+  <section class="band">
+    <div class="wrap">
+      <h2 class="reveal">Let's pair you up with a designer.</h2>
+      <p class="reveal" style="--d:.1s">Not sure which service you need? Leave your number and we'll figure it out on the call.</p>
+      <button class="btn reveal" style="--d:.2s" data-service="General enquiry">Request a call back <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    </div>
   </section>
 </main>
 
 <footer>
   <div class="wrap">
     <span>6th Floor, ZEAL VIEW, House #6/A (New), Road #14 (New), Dhanmondi R/A, Dhaka-1209</span>
-    <span>info.tribid@gmail.com · +88 01825-042138 · +88 01947-055855</span>
+    <span><a href="mailto:info.tribid@gmail.com">info.tribid@gmail.com</a> · <a href="tel:+8801825042138">+88 01825-042138</a> · <a href="tel:+8801947055855">+88 01947-055855</a></span>
   </div>
 </footer>
 
 <dialog id="dlg" aria-labelledby="dlg-title">
-  <form class="modal" id="form" novalidate>
-    <h3 id="dlg-title">Request a call back</h3>
-    <p class="sub">Service: <strong id="dlg-service"></strong></p>
-    <div>
-      <label for="phone">Your phone number</label>
-      <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="01XXXXXXXXX" required>
+  <div class="modal" id="modal">
+    <button type="button" class="x" id="cancel" aria-label="Close">✕</button>
+    <form id="form" novalidate>
+      <h3 id="dlg-title">Request a call back</h3>
+      <span class="chip" id="dlg-service"></span>
+      <div class="field" id="field">
+        <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder=" " required>
+        <label for="phone">Your phone number</label>
+      </div>
+      <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <p class="msg" id="msg" role="status" aria-live="polite"></p>
+      <button type="submit" class="btn" id="submit"><span class="spin"></span>Call me back</button>
+    </form>
+    <div class="done" aria-live="polite">
+      <svg class="tick" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="28"/><path d="M19 33l9 9 17-19"/></svg>
+      <h3>Thank you!</h3>
+      <p>We'll call you soon.</p>
     </div>
-    <!-- honeypot for bots -->
-    <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-    <p class="msg" id="msg" role="status" aria-live="polite"></p>
-    <div class="actions">
-      <button type="button" class="btn ghost" id="cancel">Close</button>
-      <button type="submit" class="btn" id="submit">Submit</button>
-    </div>
-  </form>
+  </div>
 </dialog>
 
 <script>
   // Paste the deployed Google Apps Script web app URL here (ends in /exec).
   var APPS_SCRIPT_URL = "";
 
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- nav ---------- */
+  var nav = document.getElementById("nav");
+  function onScroll() { nav.classList.toggle("scrolled", window.scrollY > 40); }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  /* ---------- reveal on scroll ---------- */
+  var revealEls = document.querySelectorAll(".reveal");
+  if ("IntersectionObserver" in window && !reduce) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+    }, { threshold: 0.15, rootMargin: "0px 0px -6% 0px" });
+    revealEls.forEach(function (el) { io.observe(el); });
+  } else {
+    revealEls.forEach(function (el) { el.classList.add("in"); });
+  }
+
+  /* ---------- galleries: crossfade, auto-advance, thumbs, arrows ---------- */
+  var AUTO_MS = 5000;
+  document.querySelectorAll("[data-gallery]").forEach(function (g) {
+    var imgs = g.querySelectorAll(".stage > img");
+    var bars = g.querySelector(".bars");
+    var thumbs = g.querySelector(".thumbs");
+    var counter = g.querySelector(".counter");
+    var n = imgs.length, cur = 0, timer = null, visible = false, hover = false;
+    g.style.setProperty("--dur", AUTO_MS + "ms");
+
+    imgs.forEach(function (img, i) {
+      bars.appendChild(document.createElement("i"));
+      var t = document.createElement("button");
+      t.type = "button"; t.setAttribute("aria-label", "Show image " + (i + 1));
+      var ti = document.createElement("img");
+      ti.src = img.getAttribute("src"); ti.alt = ""; ti.loading = "lazy";
+      t.appendChild(ti); thumbs.appendChild(t);
+      t.addEventListener("click", function () { go(i); });
+    });
+    var barEls = bars.children, thumbEls = thumbs.children;
+
+    function go(i) {
+      cur = (i + n) % n;
+      imgs.forEach(function (im, k) { im.classList.toggle("on", k === cur); });
+      for (var k = 0; k < n; k++) {
+        if (k === cur) thumbEls[k].setAttribute("aria-current", "true"); else thumbEls[k].removeAttribute("aria-current");
+        barEls[k].className = k < cur ? "done" : "";
+      }
+      counter.textContent = String(cur + 1).padStart(2, "0") + " / " + String(n).padStart(2, "0");
+      restart();
+    }
+    function restart() {
+      clearTimeout(timer);
+      var bar = barEls[cur];
+      bar.className = "";
+      if (reduce || !visible || hover) return;
+      void bar.offsetWidth; // restart progress animation
+      bar.className = "run";
+      timer = setTimeout(function () { go(cur + 1); }, AUTO_MS);
+    }
+    g.querySelector("[data-prev]").addEventListener("click", function () { go(cur - 1); });
+    g.querySelector("[data-next]").addEventListener("click", function () { go(cur + 1); });
+    g.addEventListener("mouseenter", function () { hover = true; restart(); });
+    g.addEventListener("mouseleave", function () { hover = false; restart(); });
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (es) { visible = es[0].isIntersecting; restart(); }, { threshold: 0.35 }).observe(g);
+    } else { visible = true; }
+    go(0);
+  });
+
+  /* ---------- modal + form ---------- */
   var dlg = document.getElementById("dlg");
+  var modal = document.getElementById("modal");
   var form = document.getElementById("form");
   var phone = document.getElementById("phone");
+  var field = document.getElementById("field");
   var msg = document.getElementById("msg");
   var submitBtn = document.getElementById("submit");
   var serviceLabel = document.getElementById("dlg-service");
   var currentService = "";
+  var closeTimer = null;
 
   function setMsg(text, cls) { msg.textContent = text; msg.className = "msg " + (cls || ""); }
+  function closeDlg() {
+    clearTimeout(closeTimer);
+    if (!dlg.open || dlg.classList.contains("closing")) return;
+    if (reduce) { dlg.close(); return; }
+    dlg.classList.add("closing");
+    closeTimer = setTimeout(function () { dlg.classList.remove("closing"); dlg.close(); }, 240);
+  }
 
   document.querySelectorAll("[data-service]").forEach(function (b) {
     b.addEventListener("click", function () {
       currentService = b.getAttribute("data-service");
       serviceLabel.textContent = currentService;
       form.reset();
-      setMsg("");
+      modal.classList.remove("ok");
       submitBtn.disabled = false;
+      submitBtn.classList.remove("sending");
+      field.classList.remove("bad");
+      setMsg("e.g. 01712345678");
       dlg.showModal();
-      phone.focus();
     });
   });
-  document.getElementById("cancel").addEventListener("click", function () { dlg.close(); });
-  dlg.addEventListener("click", function (e) { if (e.target === dlg) dlg.close(); });
+  document.getElementById("cancel").addEventListener("click", closeDlg);
+  dlg.addEventListener("click", function (e) { if (e.target === dlg) closeDlg(); });
+  dlg.addEventListener("cancel", function (e) { e.preventDefault(); closeDlg(); });
 
   // Bangladeshi mobile: 01XXXXXXXXX, optionally prefixed by +88 / 88 (spaces and dashes ignored).
   function normalize(raw) {
@@ -228,45 +509,35 @@
     if (/^\+?880?1[3-9]\d{8}$/.test(d)) d = "0" + d.replace(/^\+?880?/, "");
     return /^01[3-9]\d{8}$/.test(d) ? d : null;
   }
+  function bad(text) {
+    setMsg(text, "err");
+    field.classList.remove("bad"); void field.offsetWidth; field.classList.add("bad");
+    phone.focus();
+  }
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     if (form.website.value) return; // bot
     var num = normalize(phone.value);
-    if (!num) { setMsg("Please enter a valid mobile number, e.g. 01712345678.", "err"); phone.focus(); return; }
-    if (!APPS_SCRIPT_URL) { setMsg("Form is not connected yet.", "err"); return; }
+    if (!num) { bad("Please enter a valid mobile number, e.g. 01712345678."); return; }
+    if (!APPS_SCRIPT_URL) { bad("Form is not connected yet."); return; }
 
     submitBtn.disabled = true;
+    submitBtn.classList.add("sending");
+    field.classList.remove("bad");
     setMsg("Sending…");
-    var body = new URLSearchParams({
-      phone: num,
-      service: currentService,
-      submittedAt: new Date().toISOString()
-    });
+    var body = new URLSearchParams({ phone: num, service: currentService, submittedAt: new Date().toISOString() });
     // no-cors: Apps Script web apps don't send CORS headers; the response is opaque.
     fetch(APPS_SCRIPT_URL, { method: "POST", mode: "no-cors", body: body })
       .then(function () {
-        setMsg("Thank you! We'll call you soon.", "ok");
-        setTimeout(function () { dlg.close(); }, 1800);
+        modal.classList.add("ok");
+        closeTimer = setTimeout(closeDlg, 2200);
       })
       .catch(function () {
-        setMsg("Could not send. Please try again or call us.", "err");
         submitBtn.disabled = false;
+        submitBtn.classList.remove("sending");
+        bad("Could not send. Please try again or call us.");
       });
-  });
-
-  // Image galleries (thumbnail buttons swap the main image)
-  document.querySelectorAll(".gallery").forEach(function (g) {
-    var main = g.querySelector("[data-main]");
-    var thumbs = g.querySelectorAll(".thumbs button");
-    thumbs.forEach(function (t, i) {
-      t.addEventListener("click", function () {
-        main.src = t.querySelector("img").src;
-        main.alt = g.getAttribute("data-label") + " project " + (i + 1);
-        thumbs.forEach(function (o) { o.removeAttribute("aria-current"); });
-        t.setAttribute("aria-current", "true");
-      });
-    });
   });
 </script>
 </body>
