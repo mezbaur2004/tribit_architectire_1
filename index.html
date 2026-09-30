@@ -107,9 +107,14 @@
   <section class="services" aria-label="Services">
 
     <!-- Exterior -->
-    <article class="card">
-      <!-- TODO: replace with exterior image once provided -->
-      <div class="media placeholder">Exterior images coming soon</div>
+    <article class="card gallery" data-label="Exterior design">
+      <div class="media"><img data-main src="images/exterior-1.jpg" alt="Exterior design project 1" loading="lazy"></div>
+      <div class="thumbs">
+        <button type="button" aria-label="Show image 1" aria-current="true"><img src="images/exterior-1.jpg" alt="" loading="lazy"></button>
+        <button type="button" aria-label="Show image 2"><img src="images/exterior-2.jpg" alt="" loading="lazy"></button>
+        <button type="button" aria-label="Show image 3"><img src="images/exterior-3.jpg" alt="" loading="lazy"></button>
+        <button type="button" aria-label="Show image 4"><img src="images/exterior-4.jpg" alt="" loading="lazy"></button>
+      </div>
       <div class="body">
         <h2>Exterior Design</h2>
         <p>Facades that reflect personality and purpose, in harmony with their surroundings.</p>
@@ -125,13 +130,8 @@
 
     <!-- Interior -->
     <article class="card">
-      <div class="media"><img id="interior-main" src="images/interior-1.jpg" alt="Interior design project 1" loading="lazy"></div>
-      <div class="thumbs" id="interior-thumbs">
-        <button type="button" aria-label="Show image 1" aria-current="true"><img src="images/interior-1.jpg" alt="" loading="lazy"></button>
-        <button type="button" aria-label="Show image 2"><img src="images/interior-2.jpg" alt="" loading="lazy"></button>
-        <button type="button" aria-label="Show image 3"><img src="images/interior-3.jpg" alt="" loading="lazy"></button>
-        <button type="button" aria-label="Show image 4"><img src="images/interior-4.jpg" alt="" loading="lazy"></button>
-      </div>
+      <!-- TODO: replace with the five new interior images (gallery markup as on the Exterior card) -->
+      <div class="media placeholder">Interior images coming soon</div>
       <div class="body">
         <h2>Interior Design</h2>
         <p>Functional, stylish and personalized spaces for every lifestyle.</p>
@@ -245,15 +245,17 @@
       });
   });
 
-  // Interior thumbnails
-  var main = document.getElementById("interior-main");
-  var thumbs = document.querySelectorAll("#interior-thumbs button");
-  thumbs.forEach(function (t, i) {
-    t.addEventListener("click", function () {
-      main.src = t.querySelector("img").src;
-      main.alt = "Interior design project " + (i + 1);
-      thumbs.forEach(function (o) { o.removeAttribute("aria-current"); });
-      t.setAttribute("aria-current", "true");
+  // Image galleries (thumbnail buttons swap the main image)
+  document.querySelectorAll(".gallery").forEach(function (g) {
+    var main = g.querySelector("[data-main]");
+    var thumbs = g.querySelectorAll(".thumbs button");
+    thumbs.forEach(function (t, i) {
+      t.addEventListener("click", function () {
+        main.src = t.querySelector("img").src;
+        main.alt = g.getAttribute("data-label") + " project " + (i + 1);
+        thumbs.forEach(function (o) { o.removeAttribute("aria-current"); });
+        t.setAttribute("aria-current", "true");
+      });
     });
   });
 </script>
