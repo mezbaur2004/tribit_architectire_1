@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tribid Architecture &amp; Engineering</title>
+<meta name="description" content="Exterior design, interior design and apartment / commercial space sale by Tribid Architecture &amp; Engineering, Dhaka.">
+<style>
+  :root {
+    --bg: #f6f3ee;
+    --ink: #1c1f1d;
+    --muted: #5d645f;
+    --green: #0f5a45;
+    --green-dark: #0a3f31;
+    --card: #ffffff;
+    --line: #e2ddd3;
+    --brick: #c2452d;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+
+  header { padding: 20px 0; border-bottom: 1px solid var(--line); background: #fff; }
+  header .wrap { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .brand { font-weight: 700; font-size: 1.1rem; color: var(--green-dark); }
+  .brand small { display: block; font-weight: 400; font-size: .75rem; color: var(--muted); }
+  header a { color: var(--green); text-decoration: none; font-weight: 600; }
+
+  .hero { text-align: center; padding: 48px 0 28px; }
+  .hero h1 { font-size: clamp(1.7rem, 5vw, 2.6rem); line-height: 1.15; }
+  .hero p { color: var(--muted); max-width: 560px; margin: 12px auto 0; }
+
+  .services { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; padding: 20px 0 56px; }
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+    overflow: hidden; display: flex; flex-direction: column;
+  }
+  .card .media { aspect-ratio: 4 / 3; background: #d9d4c8; position: relative; overflow: hidden; }
+  .card .media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .card .media.placeholder {
+    display: grid; place-items: center; color: var(--muted); font-size: .9rem;
+    background: repeating-linear-gradient(45deg, #e6e1d5, #e6e1d5 12px, #ddd7c9 12px, #ddd7c9 24px);
+  }
+  .thumbs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; padding: 4px 4px 0; }
+  .thumbs button { border: 0; padding: 0; background: none; cursor: pointer; border-radius: 6px; overflow: hidden; opacity: .6; }
+  .thumbs button[aria-current="true"] { opacity: 1; outline: 2px solid var(--green); }
+  .thumbs img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
+  .card .body { padding: 18px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .card h2 { font-size: 1.25rem; }
+  .card p { color: var(--muted); font-size: .95rem; }
+  .card ul { color: var(--muted); font-size: .9rem; padding-left: 18px; }
+  .btn {
+    margin-top: auto; border: 0; cursor: pointer; font: inherit; font-weight: 600;
+    background: var(--green); color: #fff; padding: 12px 16px; border-radius: 10px;
+  }
+  .btn:hover { background: var(--green-dark); }
+  .btn:disabled { opacity: .6; cursor: default; }
+
+  footer { border-top: 1px solid var(--line); background: #fff; padding: 24px 0; font-size: .9rem; color: var(--muted); }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
+
+  /* modal */
+  dialog {
+    border: 0; border-radius: 16px; padding: 0; width: min(420px, calc(100vw - 32px));
+    box-shadow: 0 20px 60px rgba(0,0,0,.3);
+  }
+  dialog::backdrop { background: rgba(10, 30, 24, .55); }
+  .modal { padding: 24px; display: grid; gap: 14px; }
+  .modal h3 { font-size: 1.2rem; }
+  .modal .sub { color: var(--muted); font-size: .92rem; }
+  .modal label { font-weight: 600; font-size: .9rem; }
+  .modal input[type="tel"] {
+    width: 100%; font: inherit; padding: 12px; border: 1px solid var(--line);
+    border-radius: 10px; margin-top: 6px;
+  }
+  .modal input[type="tel"]:focus { outline: 2px solid var(--green); border-color: transparent; }
+  .msg { font-size: .9rem; min-height: 1.3em; }
+  .msg.err { color: var(--brick); }
+  .msg.ok { color: var(--green); }
+  .actions { display: flex; gap: 10px; }
+  .actions .btn { margin-top: 0; flex: 1; }
+  .btn.ghost { background: #eee9de; color: var(--ink); }
+  .btn.ghost:hover { background: #e2ddd0; }
+  .hp { position: absolute; left: -9999px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="brand">Tribid Architecture &amp; Engineering<small>We build dreams you can live in.</small></div>
+    <a href="tel:+8801825042138">Call +88 01825-042138</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <h1>Choose a service and we'll call you back</h1>
+    <p>Pick what you need, leave your phone number, and our team will get in touch.</p>
+  </section>
+
+  <section class="services" aria-label="Services">
+
+    <!-- Exterior -->
+    <article class="card">
+      <!-- TODO: replace with exterior image once provided -->
+      <div class="media placeholder">Exterior images coming soon</div>
+      <div class="body">
+        <h2>Exterior Design</h2>
+        <p>Facades that reflect personality and purpose, in harmony with their surroundings.</p>
+        <ul>
+          <li>Residential facades</li>
+          <li>Commercial building exteriors</li>
+          <li>Landscaping integration</li>
+          <li>Sustainable solutions</li>
+        </ul>
+        <button class="btn" data-service="Exterior Design">Get a call back</button>
+      </div>
+    </article>
+
+    <!-- Interior -->
+    <article class="card">
+      <div class="media"><img id="interior-main" src="images/interior-1.jpg" alt="Interior design project 1" loading="lazy"></div>
+      <div class="thumbs" id="interior-thumbs">
+        <button type="button" aria-label="Show image 1" aria-current="true"><img src="images/interior-1.jpg" alt="" loading="lazy"></button>
+        <button type="button" aria-label="Show image 2"><img src="images/interior-2.jpg" alt="" loading="lazy"></button>
+        <button type="button" aria-label="Show image 3"><img src="images/interior-3.jpg" alt="" loading="lazy"></button>
+        <button type="button" aria-label="Show image 4"><img src="images/interior-4.jpg" alt="" loading="lazy"></button>
+      </div>
+      <div class="body">
+        <h2>Interior Design</h2>
+        <p>Functional, stylish and personalized spaces for every lifestyle.</p>
+        <ul>
+          <li>Customized design solutions</li>
+          <li>Space planning &amp; material selection</li>
+          <li>Lighting design</li>
+          <li>3D visualizations</li>
+        </ul>
+        <button class="btn" data-service="Interior Design">Get a call back</button>
+      </div>
+    </article>
+
+    <!-- Sale -->
+    <article class="card">
+      <!-- TODO: replace with apartment / commercial space image once provided -->
+      <div class="media placeholder">Images coming soon</div>
+      <div class="body">
+        <h2>Apartment / Commercial Space Sale</h2>
+        <p>Featured residential and commercial spaces, such as Century Riaz Valley, Kalabagan, Dhanmondi.</p>
+        <button class="btn" data-service="Apartment / Commercial Space Sale">Get a call back</button>
+      </div>
+    </article>
+
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>6th Floor, ZEAL VIEW, House #6/A (New), Road #14 (New), Dhanmondi R/A, Dhaka-1209</span>
+    <span>info.tribid@gmail.com · +88 01825-042138 · +88 01947-055855</span>
+  </div>
+</footer>
+
+<dialog id="dlg" aria-labelledby="dlg-title">
+  <form class="modal" id="form" novalidate>
+    <h3 id="dlg-title">Request a call back</h3>
+    <p class="sub">Service: <strong id="dlg-service"></strong></p>
+    <div>
+      <label for="phone">Your phone number</label>
+      <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="01XXXXXXXXX" required>
+    </div>
+    <!-- honeypot for bots -->
+    <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <p class="msg" id="msg" role="status" aria-live="polite"></p>
+    <div class="actions">
+      <button type="button" class="btn ghost" id="cancel">Close</button>
+      <button type="submit" class="btn" id="submit">Submit</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+  // Paste the deployed Google Apps Script web app URL here (ends in /exec).
+  var APPS_SCRIPT_URL = "";
+
+  var dlg = document.getElementById("dlg");
+  var form = document.getElementById("form");
+  var phone = document.getElementById("phone");
+  var msg = document.getElementById("msg");
+  var submitBtn = document.getElementById("submit");
+  var serviceLabel = document.getElementById("dlg-service");
+  var currentService = "";
+
+  function setMsg(text, cls) { msg.textContent = text; msg.className = "msg " + (cls || ""); }
+
+  document.querySelectorAll("[data-service]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      currentService = b.getAttribute("data-service");
+      serviceLabel.textContent = currentService;
+      form.reset();
+      setMsg("");
+      submitBtn.disabled = false;
+      dlg.showModal();
+      phone.focus();
+    });
+  });
+  document.getElementById("cancel").addEventListener("click", function () { dlg.close(); });
+  dlg.addEventListener("click", function (e) { if (e.target === dlg) dlg.close(); });
+
+  // Bangladeshi mobile: 01XXXXXXXXX, optionally prefixed by +88 / 88 (spaces and dashes ignored).
+  function normalize(raw) {
+    var d = raw.replace(/[\s\-()]/g, "");
+    if (/^\+?880?1[3-9]\d{8}$/.test(d)) d = "0" + d.replace(/^\+?880?/, "");
+    return /^01[3-9]\d{8}$/.test(d) ? d : null;
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (form.website.value) return; // bot
+    var num = normalize(phone.value);
+    if (!num) { setMsg("Please enter a valid mobile number, e.g. 01712345678.", "err"); phone.focus(); return; }
+    if (!APPS_SCRIPT_URL) { setMsg("Form is not connected yet.", "err"); return; }
+
+    submitBtn.disabled = true;
+    setMsg("Sending…");
+    var body = new URLSearchParams({
+      phone: num,
+      service: currentService,
+      submittedAt: new Date().toISOString()
+    });
+    // no-cors: Apps Script web apps don't send CORS headers; the response is opaque.
+    fetch(APPS_SCRIPT_URL, { method: "POST", mode: "no-cors", body: body })
+      .then(function () {
+        setMsg("Thank you! We'll call you soon.", "ok");
+        setTimeout(function () { dlg.close(); }, 1800);
+      })
+      .catch(function () {
+        setMsg("Could not send. Please try again or call us.", "err");
+        submitBtn.disabled = false;
+      });
+  });
+
+  // Interior thumbnails
+  var main = document.getElementById("interior-main");
+  var thumbs = document.querySelectorAll("#interior-thumbs button");
+  thumbs.forEach(function (t, i) {
+    t.addEventListener("click", function () {
+      main.src = t.querySelector("img").src;
+      main.alt = "Interior design project " + (i + 1);
+      thumbs.forEach(function (o) { o.removeAttribute("aria-current"); });
+      t.setAttribute("aria-current", "true");
+    });
+  });
+</script>
+</body>
+</html>
