@@ -46,7 +46,7 @@
     display: grid; place-items: center; color: var(--muted); font-size: .9rem;
     background: repeating-linear-gradient(45deg, #e6e1d5, #e6e1d5 12px, #ddd7c9 12px, #ddd7c9 24px);
   }
-  .thumbs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; padding: 4px 4px 0; }
+  .thumbs { display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); gap: 4px; padding: 4px 4px 0; }
   .thumbs button { border: 0; padding: 0; background: none; cursor: pointer; border-radius: 6px; overflow: hidden; opacity: .6; }
   .thumbs button[aria-current="true"] { opacity: 1; outline: 2px solid var(--green); }
   .thumbs img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
@@ -146,9 +146,13 @@
     </article>
 
     <!-- Sale -->
-    <article class="card">
-      <!-- TODO: replace with apartment / commercial space image once provided -->
-      <div class="media placeholder">Images coming soon</div>
+    <article class="card gallery" data-label="Apartment / commercial space">
+      <div class="media"><img data-main src="images/sale-1.jpg" alt="Apartment / commercial space project 1" loading="lazy"></div>
+      <div class="thumbs">
+        <button type="button" aria-label="Show image 1" aria-current="true"><img src="images/sale-1.jpg" alt="" loading="lazy"></button>
+        <button type="button" aria-label="Show image 2"><img src="images/sale-2.jpg" alt="" loading="lazy"></button>
+        <button type="button" aria-label="Show image 3"><img src="images/sale-3.jpg" alt="" loading="lazy"></button>
+      </div>
       <div class="body">
         <h2>Apartment / Commercial Space Sale</h2>
         <p>Featured residential and commercial spaces, such as Century Riaz Valley, Kalabagan, Dhanmondi.</p>
