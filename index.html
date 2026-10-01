@@ -164,7 +164,8 @@
   .bars i::after { content: ""; display: block; height: 100%; width: 0; background: #fff; }
   .bars i.done::after { width: 100%; }
   .bars i.run::after { width: 100%; transition: width var(--dur, 5s) linear; }
-  .thumbs { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 10px; margin-top: 12px; }
+  .thumbs { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(84px, 1fr); gap: 10px; margin-top: 12px; overflow-x: auto; scrollbar-width: none; position: relative; padding: 3px; margin-inline: -3px; }
+  .thumbs::-webkit-scrollbar { display: none; }
   .thumbs button { border: 0; padding: 0; cursor: pointer; border-radius: 12px; overflow: hidden; background: none; opacity: .55; transition: opacity .4s, transform .4s var(--ease), outline-color .3s; outline: 2px solid transparent; outline-offset: 2px; }
   .thumbs button:hover { opacity: 1; transform: translateY(-3px); }
   .thumbs button[aria-current="true"] { opacity: 1; outline-color: var(--green); }
@@ -352,9 +353,16 @@
       <div class="gallery reveal" data-gallery>
         <div class="stage">
           <div class="bars"></div>
-          <img src="images/sale-1.jpg" alt="Construction management project 1" loading="lazy">
-          <img src="images/sale-2.jpg" alt="Construction management project 2" loading="lazy">
-          <img src="images/sale-3.jpg" alt="Construction management project 3" loading="lazy">
+          <img src="images/construction-1.jpg" alt="Construction management project 1" loading="lazy">
+          <img src="images/construction-2.jpg" alt="Construction management project 2" loading="lazy">
+          <img src="images/construction-3.jpg" alt="Construction management project 3" loading="lazy">
+          <img src="images/construction-4.jpg" alt="Construction management project 4" loading="lazy">
+          <img src="images/construction-5.jpg" alt="Construction management project 5" loading="lazy">
+          <img src="images/construction-6.jpg" alt="Construction management project 6" loading="lazy">
+          <img src="images/construction-7.jpg" alt="Construction management project 7" loading="lazy">
+          <img src="images/sale-1.jpg" alt="Construction management project 8" loading="lazy">
+          <img src="images/sale-2.jpg" alt="Construction management project 9" loading="lazy">
+          <img src="images/sale-3.jpg" alt="Construction management project 10" loading="lazy">
           <span class="counter"></span>
           <div class="arrows"><button type="button" data-prev aria-label="Previous image">‹</button><button type="button" data-next aria-label="Next image">›</button></div>
         </div>
@@ -459,6 +467,8 @@
         barEls[k].className = k < cur ? "done" : "";
       }
       counter.textContent = String(cur + 1).padStart(2, "0") + " / " + String(n).padStart(2, "0");
+      var t = thumbEls[cur];
+      thumbs.scrollTo({ left: t.offsetLeft - (thumbs.clientWidth - t.clientWidth) / 2, behavior: reduce ? "auto" : "smooth" });
       restart();
     }
     function restart() {
